@@ -468,7 +468,7 @@ console.log(length);    // '' (length 를 참조하지 못함)
 // 옵셔널 체이닝 연산자 도입 후 
 // 좌항의 피연산자가 Falsy 값이더라도 null 또는 undefined 가 아니면 우항의 프로퍼티 참조를 이어감.
 var str = '';
-var length = str?.str.length;
+var length = str?.length;
 console.log(length);    // 0 (length 참조해서 '' 길이인 0 반환)
 ```
 <br>  
