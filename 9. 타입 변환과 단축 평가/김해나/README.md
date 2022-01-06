@@ -501,4 +501,3 @@ console.log(foo);     // 'default string'
 var foo = '' ?? 'default string';
 console.log(foo);     // ""
 ```
-
