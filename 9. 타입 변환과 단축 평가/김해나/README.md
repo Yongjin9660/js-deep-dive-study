@@ -389,8 +389,8 @@ Boolean([]);          // true
 
 |단축 평가 표현식 | 평가 결과 |
 | --- | ---|
-| `true || anything` | true |
-| `false || anything` | anything |
+| `true \|\| anything` | true |
+| `false \|\| anything` | anything |
 | `true && anything` | anything |
 | `false && anything` | false |  
 <br>
@@ -501,4 +501,3 @@ console.log(foo);     // 'default string'
 var foo = '' ?? 'default string';
 console.log(foo);     // ""
 ```
-
