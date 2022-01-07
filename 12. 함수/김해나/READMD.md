@@ -240,4 +240,4 @@ var sub = function (x, y) {
 > 함수 호이스팅 : 함수 선언문을 통해 암묵적으로 생성된 식별자는 <u> 함수 객체로 초기화 </u>
 
 
-** 이미지 출처 : https://velog.io/@minj9_6/JavaScript-%ED%95%A8%EC%88%98%EC%9D%98-%EC%A0%95%EC%9D%98%EC%9D%98-4%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95-%EC%A4%91-%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8%EB%AC%B8%EA%B3%BC-%ED%91%9C%ED%98%84%EC%8B%9D%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C 
+** 이미지 출처 : https://velog.io/@minj9_6/JavaScript-%ED%95%A8%EC%88%98%EC%9D%98-%EC%A0%95%EC%9D%98%EC%9D%98-4%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95-%EC%A4%91-%ED%95%A8%EC%88%98-%EC%84%A0%EC%96%B8%EB%AC%B8%EA%B3%BC-%ED%91%9C%ED%98%84%EC%8B%9D%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C  
