@@ -18,6 +18,8 @@ console.log(x); // 100
 console.log(y); // 1
 ```
 
+<br />
+
 **2. 함수 레벨 스코프**
 
 > 💡 var 키워드로 선언한 변수는 함수의 코드 블록만을 지역 스코프로 인정
@@ -30,6 +32,8 @@ if (true) {
 }
 console.log(x); // 10
 ```
+
+<br />
 
 **3. 변수 호이스팅**
 
@@ -49,6 +53,8 @@ console.log(foo);
 var foo;
 ```
 
+<br />
+
 ## 15.2 let 키워드
 
 **1. 변수 중복 선언 금지**
@@ -59,6 +65,8 @@ var foo;
 let foo = 1;
 let foo = 2; // SyntaxError: Identifier 'foo' fas already been declared
 ```
+
+<br />
 
 **2. 블록 레벨 스코프**
 
@@ -73,6 +81,8 @@ let foo = 1; // 전역 변수
 console.log(foo); // 1
 console.log(bar); // ReferenceError: bar is not defined
 ```
+
+<br />
 
 **3. 변수 호이스팅**
 
@@ -100,6 +110,8 @@ let foo = 1; // 전역 변수
 - let 키워드로 선언한 변수 호이스팅이 발생하지 않는다면 위 예제에는 전역 변수 foo의 값을 출력해야함
 - 하지만 let 키워드로 선언한 변수도 호이스팅이 발생하기 때문에 ReferenceError가 발생
 
+<br />
+
 **4. 전역 객체와 let**
 
 > 💡 let 키워드로 선언한 전역 변수는 전역 객체의 프로퍼티가 아님
@@ -115,6 +127,8 @@ console.log(window.x); // 1
 console.log(window.y); // undefined
 ```
 
+<br />
+
 ## 15.3 const 키워드
 
 **1. 선언과 초기화**
@@ -129,6 +143,8 @@ const bar; // SyntaxError: Missing initializer in const declaration
 - let 과 동일하게 블록 레벨 스코프를 가짐
 - 변수 호이스팅이 발생하지 않는 것처럼 동작
 
+<br />
+
 **2. 재할당 금지**
 
 > 💡 const 키워드로 선언한 변수는 재할당이 금지됨
@@ -137,6 +153,8 @@ const bar; // SyntaxError: Missing initializer in const declaration
 const foo = 1;
 foo = 2; // TypeError: Assignment to constant variable
 ```
+
+<br />
 
 **3. 상수**
 
@@ -147,6 +165,8 @@ foo = 2; // TypeError: Assignment to constant variable
 // 언더스코어(_)로 구분해서 스네이크 케이스로 표현하는 것이 일반적
 const TAX_RATE = 0.1;
 ```
+
+<br />
 
 **4. const 키워드와 객체**
 
@@ -161,6 +181,8 @@ person.name = 'Lee';
 ```
 
 - **const 키워드는 재할당을 금지할 뿐 불변을 의미하지는 않음**
+
+<br />
 
 ## 15.4 var vs. let vs. const
 
