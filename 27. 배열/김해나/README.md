@@ -896,8 +896,263 @@ result = [...[1, 2], ...[3, 4]];
 console.log(result0);     // [1, 2, 3, 4]
 ```
 
-``` -> 결론적으로 push/unshift 메서드와 concat 메서드를 사용하는 대신 ES6 의 스프레드 문법을 일관성 있게 사용하는 것을 권장 ```
+``` -> 결론적으로 push/unshift 메서드와 concat 메서드를 사용하는 대신 ES6 의 스프레드 문법을 일관성 있게 사용하는 것을 권장 ```  
+<br>
 
+### 8) Array.prototype.splice
+> ``` 원본 배열의 중간에 요소를 추가/제거하는 경우 사용 ```  
+> -> splice 메서드는 3개의 매개변수가 있으며, 원본 배열을 직접 변경
+
+<br>  
+
+``` jsx
+splice(start, deleteCount, items)
+```
+
+- start : 요소를 제거하기 시작할 인덱스로, start 만 지정하면 원본 배열의 start 부터 모든 요소를 제거함.
+
+- deleteCount : start 부터 제거할 요소의 개수 (옵션)
+
+- items : 제거한 위치에 삽입할 요소들의 목록 (옵션)  
+<br>
+
+``` jsx
+const arr = [1, 2, 3, 4];
+
+// 원본 배열의 인덱스 1부터 2개의 요소를 제거하고, 그 자리에 새로운 요소인 20, 30 삽입
+const result = arr.splice(1, 2, 20, 30);
+
+// 제거한 요소가 배열로 반환됨
+console.log(result);      // [2, 3]
+
+// 원본 배열에 영향 O
+console.log(arr);         // [1, 20, 30, 4]
+```
+
+``` jsx
+const arr = [1, 2, 3, 4];
+
+// 원본 배열의 인덱스 1부터 0개의 요소를 제거하고, 그 자리에 새로운 요소인 100 삽입
+const result = arr.splice(1, 0, 100);
+
+console.log(result);    // []
+console.log(arr);       // [1, 100, 2, 3, 4]
+```
+
+``` jsx
+const arr = [1, 2, 3, 4];
+
+// 원본 배열의 인덱스 1부터 모든 요소 제거
+const result = arr.splice(1);
+
+console.log(reesult);     // [2, 3, 4]
+console.log(arr);         // [1]
+```
+<br>
+
+### 9) Array.prototype.slice
+> ``` 인수로 전달된 범위의 요소들을 복사하여 배열로 반환  ```  
+> -> slice 메서드는 원본 배열을 변경하지 않음.
+
+<br>
+
+``` jsx
+slice(start, end)
+``` 
+
+- start : 복사를 시작할 인덱스 (음수인 경우 배열의 끝에서의 인덱스를 나타냄)
+- end : 복사를 종료할 인덱스 (종료 인덱스는 포함 x)  
+<br>  
+
+``` jsx
+const arr = [1, 2, 3];
+
+// arr[0] 브터 arr[1] 이전 (미포함) 까지 복사하여 반환
+arr.slice(0,1);       // [1]
+
+// 원본 배열에 영향 X
+console.log(arr);     // [1, 2, 3]
+```
+
+``` jsx
+const arr = [1, 2, 3];
+
+// arr[1] 부터 이후의 모든 요소를 복사하여 반환
+arr.slice(1);         // [2, 3]
+
+// 배열의 끝에서부터 요소를 2개 복사하여 반환
+arr.slice(-2);        // [2, 3]
+```
+
+``` jsx
+const arr = [1, 2, 3];
+
+// 인수를 모두 생략하면 원본 배열의 복사본을 생성하여 반환
+const copy = arr.slice();
+console.log(copy)                    // [1, 2, 3]
+
+// 이때 생성된 복사본은 '얕은 복사' 를 통해 생성됨
+// 원본 배열과 복사본 자체는 참조값이 다른 별개의 객체
+console.log(copy === arr);           // false
+
+// But, 배열 요소의 참조값은 동일함. 즉, 얕은 복사되었다는 것
+console.log(copy[1] === arr[1])      // true
+```
+
+``` ** 얕은 복사와 깊은 복사 ```
+- 얕은 복사 : 한 단계까지만 복사  
+-> slice 메서드, 스프레드 문법, Object.assgin 메서드 사용  
+
+- 깊은 복사 : 객체에 중첩되어 있는 객체까지 모두 복사  
+ -> ClondeDeep 메서드 사용  
+<br>
+
+### 10) Array.prototype.join
+> ```원본 배열의 모든 요소를 문자열로 변환한 후, 인수로 전달받은 구분자로 연결한 문자열을 반환```    
+> -> 기본 구분자는 콤마(,)
+
+<br>
+
+``` jsx
+const arr = [1, 2, 3, 4];
+
+arr.join();        // '1, 2, 3, 4'
+
+arr.join('');      // '1234'
+
+arr.join(':');     // '1:2:3:4'
+```
+<br>
+
+### 11) Array.prototype.reverse
+> ```원본 배열의 순서를 반대로 뒤집으며, 변경된 배열을 반환함.```    
+> -> reverse 메서드는 원본 배열을 변경함.
+
+<br>
+
+``` jsx
+const arr = [1, 2, 3];
+const result = arr.reverse();
+
+// 반대로 뒤집은 배열을 반환
+console.log(result);      // [3, 2, 1]
+
+// 원본 배열에 영향 O
+console.log(arr);         // [3, 2, 1]
+```
+<br>
+
+### 12) Array.prototype.fill
+> 인수로 전달받은 값을 배열의 처음부터 끝까지 요소로 채움.
+> -> ES6에서 도입된 fill 메서드는 원본 배열을 변경함.
+
+<br>
+
+``` jsx
+fill(element, start, end)
+```
+
+- element : 채울 요소값
+- start : 요소 채우기를 시작할 인덱스 (옵션)
+- end : 요소 채우기를 멈출 인덱스로, 마지막 인덱스는 포함 X (옵션)
+
+<br>
+
+``` jsx
+const arr = [1, 2, 3];
+
+// 인수로 전달받은 값 0을 배열의 처음부터 끝까지 요소로 채움
+arr.fill(0);           // [0, 0, 0]
+
+// 원본 배열에 영향 O
+console.log(arr);      // [0, 0, 0]
+```
+
+``` jsx
+const arr = [1, 2, 3, 4, 5];
+
+// 인수로 전달받은 값 0을 배열의 인덱스 1부터 3 이전까지 요소로 채움
+arr.fill(0, 1, 3);      // [1, 0, 0, 4, 5]
+```
+
+-> fill 메서드로 요소를 채울 경우 모든 요소를 하나의 값만으로 채울 수밖에 없다는 단점 O  
+<br>
+
+### 13) Array.prototype.includes
+> ``` 배열 내에 특정 요소가 포함되어 있는지 확인하여 true 또는 false 반환``` 
+
+<br>
+
+``` jsx
+includes(element, start)
+```
+
+- element : 검색할 대상   
+- start : 검색을 시작할 인덱스
+
+<br>
+
+``` jsx
+const arr = [1, 2, 3];
+
+// 배열에 요소 2가 포함되어 있는지 확인
+arr.includes(2);          // true
+
+// 배열에 요소 1이 포함되어 있는지 인덱스 1 부터 확인
+arr. includes(1, 1);      // false 
+
+// 배열에 요소 3이 포함되어 있는지 마지막 인덱스부터 확인
+arr.includes(3, -1);      // true
+```
+
+### 14) Array.prototype.flat
+> ```인수로 전달한 깊이만큼 재귀적으로 배열을 평탄화함.```  
+> -> 중첩 배열을 평탄화할 깊이를 인수로 전달하고, 인수를 생략하면 기본값은 1
+
+<br>
+
+``` jsx
+// 중첩 배열을 평탄화하기 위한 깊이 값의 기본값은 1
+[1, [2, [3, [4]]]].flat();            // [1, 2, [3, [4]]]
+[1, [2, [3, [4]]]].flat(1);           // [1, 2, [3, [4]]]
+
+// 중첩 배열을 평탄화하기 위한 깊이 값을 2로 지정 -> 2단계 깊이까지 평탄화
+[1, [2, [3, [4]]]].flat(2);           // [1, 2, 3, [4]]
+
+// 2번 평탄화한 것과 동일
+[1, [2, [3, [4]]]].flat().flat();     // [1, 2, [3, [4]]]
+
+// 중첩 배열 모두를 평탄화
+[1, [2, [3, [4]]]].flat(Infinity);    // [1, 2, 3, 4]
+```
+<br>
+
+## 27.9 배열 고차 함수
+>  
+
+### 1) Array.prototype.sort
+> ```배열의 요소를 정렬하며, 정렬된 배열을 반환하는데 기본적으로 오름차순 정렬 ```  
+> -> sort 메서드는 원본 배열을 직접 변경함.
+
+<br>
+
+``` jsx
+const fruits = ['Banana', 'Orange', 'Apple'];
+
+// 오름차순 정렬
+fruits.sort();
+
+// 원본 배열에 영향 O
+console.log(fruits);      // ['Apple', 'Banana', 'Orange']
+
+// 내림차순 정렬
+fruits.reverse();
+
+// 원본 배열에 영향 O
+console.log(fruits);      // ['Orange', 'Banana', 'Apple']
+``` 
+
+-> 숫자 정렬ㅉ
 <br><br>
 ** 이미지 출처 : https://velog.io/@nareum/%EB%B0%B0%EC%97%B4Array 
 https://medium.com/@lyhlg0201/immersive-sprint-js-stack-queue-426ccfbdb602
