@@ -1128,11 +1128,20 @@ arr.includes(3, -1);      // true
 <br>
 
 ## 27.9 배열 고차 함수
->  
+>  함수를 인수로 전달받거나 함수를 반환하는 함수  
+> -> 외부 상태의 변경이나 가변 데이터를 피하고 불변성을 지향하는 함수형 프로그래밍에 기반 O  
+
+<br>
+
+### ** 함수형 프로그래밍   
+-> 순수 함수와 보조 함수의 조합을 통해 로직 내에 존재하는 조건문과 반복문 제거  
+
+-> 복잡성을 해결하고 변수의 사용을 억제하여 상태 변경을 피햐려는 프로그래밍 패러다임  
+<br>
 
 ### 1) Array.prototype.sort
 > ```배열의 요소를 정렬하며, 정렬된 배열을 반환하는데 기본적으로 오름차순 정렬 ```  
-> -> sort 메서드는 원본 배열을 직접 변경함.
+> -> sort 메서드는 원본 배열을 직접 변경함.  
 
 <br>
 
@@ -1152,7 +1161,380 @@ fruits.reverse();
 console.log(fruits);      // ['Orange', 'Banana', 'Apple']
 ``` 
 
--> 숫자 정렬ㅉ
+``` jsx
+// 숫자 요소들로 이루어진 배열은 의도한 대로 정렬되지 않음.
+['2', '10'].sort();       // ["10", "2"]
+[2, 10].sort();           // [10, 2]
+
+// 숫자 요소를 정렬할 때는 sort 메서드에 정렬 순서를 정의하는 비교 함수를 인수로 전달해야 함.
+const points = [40, 100, 1, 5, 2, 25, 10];
+
+// 숫자 배열의 오름차순 정렬. 비교 함수의 반환값이 0보다 작으면 a 를 우선 정렬
+points.sort((a, b) => a - b);
+console.log(points);        // [1, 2, 5, 10, 25, 40, 100]
+
+// 숫자 배열에서 최소/최대값 취득
+console.log(points[0], points[points.length - 1]);      // 1 100
+
+// 숫자 배열의 내림차순 정렬. 비교 함수의 반환값이 0보다 작으면 b 를 우선 정렬
+points.sort((a, b) => b - a);
+console.log(points);        // [100, 40, 25, 10, 5, 2, 1]
+
+// 숫자 배열에서 최소/최대값 취득
+console.log(points[points.length - 1], points[0]);      // 1 100
+```
+
+-> sort 메서드를 이용하여 ```숫자 요소를 정렬할 때는 정렬 순서를 정의하는 비교 함수를 인수로 전달해야 함. ```  
+ 
+
+-> 비교 함수는 양수나 음수 또는 0을 반환해야 하는데,
+ - 비교 함수의 반환값 < 0 : 첫 번째 인수 우선 정렬
+ - 비교 함수의 반환값 = 0 : 정렬 X
+ - 비교 함수의 반환값 > 0 : 두 번째 인수 우선 정렬
+
+<br>
+
+### 2) Array.prototype.forEach
+
+> ```for 문을 대체할 수 있는 고차 함수로, 자신의 내부에서 반복문 실행 ```  
+> -> 내부에서 반복문을 통해 자신을 호출한 배열을 순회하면서 수행해야 할 처리를 콜백 함수로 전달받아 반복 호출
+
+<br>
+
+``` jsx
+const numbers = [1, 2, 3];
+const pows = [];
+
+// forEach 메서드는 numbers 배열의 모든 요소를 순회하면서 콜백 함수를 반복 호출
+numbers.forEach(item => pows.push(item ** 2));
+console.log(pows);      // [1, 4, 9]
+```
+
+``` jsx
+// forEach 메서드는 콜백 함수를 호출하면서 3개 (요소값, 인덱스, this) 의 인수를 전달함.
+[1, 2, 3].forEach((item, index, arr) => {
+  console.log(`요소값 : ${item}, 인덱스 : ${index}, this : ${JSON.stringify(arr)}`);
+});
+
+/*
+{
+  요소값 : 1, 인덱스 : 0, this : [1, 2, 3]
+  요소값 : 2, 인덱스 : 1, this : [1, 2, 3]
+  요소값 : 3, 인덱스 : 2, this : [1, 2, 3]
+}
+*/
+```
+
+``` jsx
+const numbers = [1, 2, 3];
+
+// forEach 메서드는 원본 배열을 변경하지 않지만 콜백 함수를 통해 원본 배열을 변경할 수는 있다.
+// 콜백 함수의 3번째 매개변수 arr 은 원본 배열 numbers 를 가리킨다.
+// 따라서 콜백 함수의 3번째 매개변수 arr 을 직접 변경하면 원본 배열 numbers 도 변경됨. 
+
+numbers.forEach((item, index,arr) => { arr[index] = item ** 2; });
+console.log(numbers);        // [1, 4, 9]
+```
+
+-> forEach 메서드는 원본 배열을 변경하지 않지만 콜백 함수의 3번째 매개변수를 직접 변경하면 원본 배열을 변경할 수는 있음.  
+<br>
+
+``` jsx
+const result = [1, 2, 3].forEach(console.log);
+console.log(result);         // undefined
+
+[1, 2, 3].forEach(item => {
+  console.log(item);
+  if (item > 1) break;       // SyntaxError
+});
+
+[1, 2, 3].forEach(item => {
+  console.log(item);
+  if (item > 1) continue;    // SyntaxError
+})
+```
+
+``` -> forEach 메서드의 반환값은 언제나 undefined```  
+``` -> forEach 메서드는 for 문과 달리 break, continue 문 사용 X ```  
+<br>
+
+``` jsx
+// 희소 배열
+const arr = [1, , 3];
+
+// forEach 메서드는 희소 배열의 존재하지 않는 요소를 순회 대상에서 제외함.
+arr.forEach(v => console.log(v));       // 1, 3
+```
+
+``` -> 희소 배열의 경우 존재하지 않는 요소는 순회 대상에서 제외됨. ```   
+
+-> forEach 메서드는 for 문에 비해 성능이 좋진 않지만 가독성이 더 좋기 때문에 높은 성능이 필요한 경우가 아니라면 forEach 메서드 사용할 것을 권장  
+<br>
+
+### 3) Array.prototype.map
+
+> ``` 요소값을 다른 값으로 매핑한 새로운 배열을 생성하기 위한 고차 함수```  
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출  
+> -> 콜백 함수의 반환값들로 구성된 새로운 배열을 반환하고, 이때 원본 배열은 변경되지 않음.  
+
+<br>
+
+``` jsx
+const numbers = [1, 4, 9];
+
+// 콜백 함수의 반환값들로 구성된 새로운 배열을 반환
+const roots = numbers.map(item => Math.sqrt(item));
+
+// 위 코드는 다음과 같다.
+// const roots = numbers.map(Math.sqrt);
+
+// map 메서드는 새로운 배열을 반환
+console.log(roots);         // [1, 2, 3]
+
+// map 메서드는 원본 배열에 영향 X
+console.log(numbers);       // [1, 4, 9]
+```
+
+-> map 메서드를 호출한 배열과 map 메서드가 생성하여 반환하는 배열은 1:1 매핑
+<br>
+
+``` jsx
+// map 메서드는 콜백 함수를 호출하면서 3개 (요소값, 인덱스, this) 의 인수를 전달함.
+[1, 2, 3].map((item, index, arr) => {
+  console.log(`요소값 : ${item}, 인덱스 : ${index}, this : ${JSON.stringify(arr)}`);
+  return item;
+});
+
+/*
+{
+  요소값 : 1, 인덱스 : 0, this : [1, 2, 3]
+  요소값 : 2, 인덱스 : 1, this : [1, 2, 3]
+  요소값 : 3, 인덱스 : 2, this : [1, 2, 3]
+}
+*/
+```
+<br>
+
+### 4) Array.prototype.filter
+
+> ``` 콜백 함수의 반환값이 true 인 요소로만 구성된 새로운 배열을 반환 ```   
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출하며, 이때 원본 배열을 변경되지 않음.
+
+<br>
+
+``` jsx
+const numbers = [1, 2, 3, 4, 5];
+
+// filter 메서드는 numbers 배열의 모든 요소를 순회하면서 콜백 함수를 반복 호출
+// 그리고 콜백 함수의 반환값이 true 인 요소로만 구성된 새로운 배열 반환
+
+const odds = numbers.filter(item => item % 2);
+console.log(odds);      // [1, 3, 5]
+```
+
+-> filter 메서드가 생성하여 반환한 새로운 배열의 length 프로퍼티 값은 filter 메서드를 호출한 배열의 length 프로퍼티 값과 같거나 작음.  
+<br>
+
+``` jsx
+// filter 메서드는 콜백 함수를 호출하면서 3개 (요소값, 인덱스, this) 의 인수를 전달함.
+[1, 2, 3].filter((item, index, arr) => {
+  console.log(`요소값 : ${item}, 인덱스 : ${index}, this : ${JSON.stringify(arr)}`);
+  return item;
+});
+
+/*
+{
+  요소값 : 1, 인덱스 : 0, this : [1, 2, 3]
+  요소값 : 2, 인덱스 : 1, this : [1, 2, 3]
+  요소값 : 3, 인덱스 : 2, this : [1, 2, 3]
+}
+*/
+```
+<br>
+
+### 5) Array.prototype.reduce
+
+> ```콜백 함수의 반환값을 다음 순회 시에 콜백 함수의 첫 번째 인수로 전달하면서 하나의 결과값을 만들어 반환 ```  
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출하며, 이때 원본 배열을 변경되지 않음.
+
+<br>
+
+- reduce 메서드는 총 2개의 인수 존재
+  - 콜백 함수
+  - 초기값 (옵션) => 생략 가능하지만 초기값을 전달하는 것이 안전   
+  <br>
+
+- 콜백 함수에는 4개의 인수 존재
+  - 초기값 또는 콜백 함수의 이전 반환값
+  - reduce 메서드를 호출한 배열의 요소값
+  - reduce 메서드를 호출한 배열의 요소값
+  - reduce 메서드를 호출한 배열 자체 (this)
+
+<br>
+
+``` jsx
+// 1부터 4까지의 누적 구하기
+const sum = [1, 2, 3, 4].reduce((accumulator, currentValue, index, array) => accumulator + currentValue, 0);
+
+console.log(sum);     // 10
+```
+
+-> reduce 메서드는 초기값과 배열의 첫 번째 요소값을 콜백 함수에게 인수로 전달하면서 호출하고 다음 순회에는 콜백 함수의 반환값과 두 번째 요소값을 콜백 함수의 인수로 전달하면서 호출함.  
+
+-> 이러한 과정을 반복하여 reduce 메서드는 하나의 결과값 반환  
+<br>
+
+### 6) Array.prototype.some
+
+> ```콜백 함수의 반환값이 단 한 번이라도 참이면 true, 모두 거짓이면 false 반환```  
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출하며, 빈 배열인 경우 언제나 false 반환
+
+<br>
+
+``` jsx
+// 배열의 요소 중 10보다 큰 요소가 1개 이상 존재하는지 확인
+[5, 10, 15].some(item => item > 10);      // true
+
+// 배열의 요소 중 'banana' 가 1개 이상 존재하는지 확인
+['apple', 'banana', 'mango'].some(item => item === 'banana');     // true
+
+// some 메서드를 호출한 배열이 빈 배열인 경우 언제나 false 반환
+[].some(item => item > 3);      // false
+```
+
+<br>
+
+### 7) Array.prototype.every
+
+> ```콜백 함수의 반환값이 모두 참이면 true, 단 한 번이라도 거짓이면 false 반환```    
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출하며, 빈 배열인 경우 언제나 true 반환
+
+<br>
+
+``` jsx
+// 배열의 모든 요소가 3보다 큰지 확인
+[5, 10, 15].every(item => item > 3);      // true
+
+// 배열의 모든 요소가 10보다 큰지 확인
+[5, 10, 15].every(item => item > 10);      // false
+
+// every 메서드를 호출한 배열이 빈 배열인 경우 언제나 true 반환
+[].every(item => item > 3);      // true
+```
+<br>
+
+### 8) Array.prototype.find
+
+> ``` 콜백 함수의 반환값이 true 인 첫 번째 요소 반환```  
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출  
+
+<br>
+
+``` jsx
+const users = [
+  {id : 1, name : 'Lee'},
+  {id : 2, name : 'Kim'},
+  {id : 2, name : 'Choi'},
+  {id : 3, name : 'Park'},
+]
+
+// id 가 2인 첫 번째 요소 반환한다.
+// find 메서드는 배열이 아니라 해당 요소를 반환하는 것
+users.find(user => user.id === 2);      // {id : 2, name : 'Kim'}
+```
+
+-> 콜백 함수의 반환값이 true 인 요소가 존재하지 않으면 undefined 반환   
+<br>
+
+``` jsx
+// filter 메서드는 배열을 반환
+[1, 2, 2, 3].filter(item => item === 2);      // [2, 2]
+
+// find 메서드는 요소를 반환
+[1, 2, 2, 3].find(item => item === 2);        // 2
+```
+
+- ```filter 메서드는 true 인 요소만 추출한 새로운 배열을 반환```  
+
+- ```find 메서드는 true 인 첫 번째 요소 자체를 반환```  
+<br>
+
+### 9) Array.prototype.findIndex
+
+> ```콜백 함수의 반환값이 true 인 첫 번째 요소의 인덱스를 반환```  
+> -> 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출
+
+<br>
+
+``` jsx
+const users = [
+  { id : 1, name : 'Lee'},
+  { id : 2, name : 'Kim'},
+  { id : 2, name : 'Choi'},
+  { id : 3, name : 'Park'},
+];
+
+// id 가 2인 요소의 인덱스 반환
+users.findIndex(user => user.id === 2);     // 1
+
+// name 이 'Park' 인 요소의 인덱스 반환
+users.findIndex(user => user.name === 'Park');      // 3
+
+// 위와 같이 프로퍼티 키와 프로퍼티 값으로 요소의 인덱스를 구하는 경우 다음과 같이 콜백 함수를 추상화할 수 있다.
+
+function predicate(key, value) {
+  // key 와 value 를 기억하는 클로저 반환
+  return item => item[key] === value;
+}
+
+// id 가 2인 요소의 인덱스 반환
+users.findIndex(predicate('id', 2));      // 1
+
+// name 이 'Park' 인 요소의 인덱스 반환
+users.findIndex(predicate('name', 'Park'));      // 3
+```
+<br>
+
+### 10) Array.prototype.flatMap
+
+> ```map 메서드를 통해 생성된 새로운 배열을 평탄화```  
+> -> map 메서드와 flat 메서드를 순차적으로 실행하는 효과 O
+
+<br>
+
+``` jsx 
+const arr = ['hello', 'world'];
+
+// map 과 flat 을 순차적으로 실행
+arr.map(x => x.split('')).flat();
+// ['h', 'e', 'l' 'l', 'o', 'w', 'o', 'r', 'l', 'd']
+
+// flatMap 은 map 을 통해 생성된 새로운 배열을 평탄화
+arr.flatMap(x => x.split(''));
+// ['h', 'e', 'l' 'l', 'o', 'w', 'o', 'r', 'l', 'd']
+
+```
+
+``` jsx
+const arr =  ['hello', 'world'];
+
+// flatMap 은 1단계만 평탄화
+arr.flatMap((str, index) => [index, [str, str.length]]);
+// [[0, ['hello', 5]], [1, ['world', 5]]]
+// -> [[0, ['hello', 5]], 1, ['world', 5]]
+
+// 평탄화 깊이를 지정해야 하면 map 메서드와 flat 메서드 각각 호출
+arr.map((str, index) => [index, [str, str.length]]).flat(2);
+// [[0, ['hello', 5]], [1, ['world', 5]]]
+// -> [[0, 'hello', 5, 1, 'world', 5]
+
+```
+
+-> ```flatMap 메서드```는 flat 메서드처럼 인수를 전달하여 평탄화 깊이를 지정할 수는 없고 ```1단계만 평탄화 가능```  
+
+-> 평탄화 깊이를 지정해야 하면 map 메서드와 flat 메서드를 각각 호출해야 함.
+
+
 <br><br>
 ** 이미지 출처 : https://velog.io/@nareum/%EB%B0%B0%EC%97%B4Array 
 https://medium.com/@lyhlg0201/immersive-sprint-js-stack-queue-426ccfbdb602
