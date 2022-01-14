@@ -695,7 +695,3 @@ arr.flatMap((x) => x.split(''));
 ### 참조
 
 - https://velog.io/@nareum/%EB%B0%B0%EC%97%B4Array
-
-```
-
-```
