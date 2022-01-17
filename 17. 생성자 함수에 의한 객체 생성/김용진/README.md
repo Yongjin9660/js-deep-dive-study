@@ -17,7 +17,7 @@ person.sayHello = function () {
 console.log(person); // { name: 'Kim', sayHello: f }
 ```
 
-- 생성자 함수란 new 연산자와 함께 호출하여 객체(인스턴스)를 생성하는 함수를 말함
+- **생성자 함수란 new 연산자와 함께 호출하여 객체(인스턴스)를 생성하는 함수를 말함**
 - 생성자 함수에 의해 생성된 객체를 인스턴스라고 함
 - 자바스크립트는 Object 생성자 함수 이외에도 String, Number, Boolean, Function, Array, Date, RegExp, Promise 등 빌트인 생성자 함수를 제공
 
@@ -26,7 +26,7 @@ console.log(person); // { name: 'Kim', sayHello: f }
 ### 객체 리터럴에 의한 객체 생성 방식의 문제점
 
 > 💡 단 하나의 객체만 생성
-> => 동일한 프로퍼티를 갖는 객체를 생성기에는 비효율적
+> ⇒ 동일한 프로퍼티를 갖는 객체를 생성기에는 비효율적
 
 ```js
 const circle1 = {
@@ -81,7 +81,7 @@ const circle2 = new Circle(10);
 - **암묵적으로 빈 객체가 생성**
   ⇒ (아직 완성 X) 생성자 함수가 생성한 인스턴스
 - **빈 인스턴스는 this에 바인딩됨**
-  ⇒ 생성자 함수 내부의 this가 생성자 함수가 생성할 인스턴스르 가리키는 이유
+  ⇒ 생성자 함수 내부의 this가 생성자 함수가 생성할 인스턴스를 가리키는 이유
 
 ```js
 function Circle(radius) {
@@ -162,10 +162,10 @@ foo.method(); // 1
 ```js
 function foo() {}
 
-// 일반적인 함수로서 호출: [[Call]] 이 호출
+// 일반적인 함수로서 호출: [[Call]]이 호출
 foo();
 
-// 생성자 함수로서 호출: [[Construct]] 가 호출
+// 생성자 함수로서 호출: [[Construct]]가 호출
 new foo();
 ```
 
@@ -202,6 +202,7 @@ function foo() {}
 const bar = function () {};
 // 프로퍼티 x의 값으로 할당된 것은 일반함수로 정의된 함수
 // 메서드가 아님
+
 const baz = {
 	x: function () {},
 };
@@ -240,8 +241,7 @@ new foo();
 ### new 연산자
 
 > 💡 new 연산자와 함께 함수를 호출하면 해당 함수는 생성자 함수로 동작
-
-함수 객체의 내부 메서드 \[[Call]]이 호출되는 것이 아니라 \[[Constructor]]가 호출됨
+> ⇒ 함수 객체의 내부 메서드 \[[Call]]이 호출되는 것이 아니라 \[[Construct]]가 호출됨
 
 ```js
 // 생성자 함수로서 정의하지 않은 일반 함수
