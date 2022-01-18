@@ -158,7 +158,7 @@ console.log(sum(1,2));      // 3
 ``` jsx
 // ES6 Rest 파라미터 도입
 function sum(...args) {
-  return args.reduce(pre, dur) => pre + cur, 0);
+  return args.reduce((pre, cur) => pre + cur, 0);
 }
 
 console.log(sum(1, 2));     // 3
