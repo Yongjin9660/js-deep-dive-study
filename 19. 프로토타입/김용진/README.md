@@ -244,11 +244,96 @@ function Person(name) {
 
 ### 객체 리터럴에 의해 생성된 객체의 프로토타입
 
+> 💡 객체 리터럴에 의해 생성되는 객체의 프로토타입은 Object.prototype 임
+
+- 객체 리터럴을 평가하여 객체를 생성할 때 추상연산 **OrdinaryObjectCreate**를 호출
+- OrdinaryObjectCreate에 전달되는 프로토타입은 Object.prototype 임
+
+```js
+const obj = { x: 1 };
+
+console.log(obj.constructor === Object); // true
+console.log(obj.hasOwnProperty('x')); // true
+```
+
 ### Object 생성자 함수에 의해 생성된 객체의 프로토타입
+
+> 💡 Object 생성자 함수를 호출하면 객체 리터럴과 마찬가지로 추상 연산 OrdinaryObjectCreate가 호출됨
+
+```js
+const obj = new Object();
+obj.x = 1;
+
+// Object 생성자 함수에 의해 생성된 obj 객체는 Object.prototype을 상속받음
+console.log(obj.constructor === Object); // true
+console.log(obj.hasOwnProperty('x')); // true
+```
 
 ### 생성자 함수에 의해 생성된 객체의 프로토타입
 
+> 💡 생성자 함수에 의해 생성되는 객체의 프로토타입은 생성자 함수의 prototype 프로퍼티에 바인딩되어 있는 객체
+
+```js
+function Person(name) {
+	this.name = name;
+}
+
+// 프로토타입 메서드
+Person.prototype.sayHello = function () {
+	console.log(`Hi! ${this.name}`);
+};
+
+const me = new Person('Lee');
+const you = new Person('Kim');
+```
+
 ## 19.7 프로토타입 체인
+
+> 💡 객체의 포로퍼티(메서드 포함)에 접근하려고 할 때 해당 객체에 접근하려는 프로퍼티가 없다면 \[[Prototype]] 내부 슬롯의 참조를 따라 자신의 부모 역할을 하는 프로토타입의 프로퍼티를 순차적으로 검색
+
+```js
+function Person(name) {
+	this.name = name;
+}
+
+// 프로토타입 메서드
+Person.prototype.sayHello = function () {
+	console.log(`Hi! ${this.name}`);
+};
+
+const me = new Person('Lee');
+
+me.hasOwnProperty(); /// true
+```
+
+**me.hasOwnProperty('name')** 을 호출하면
+
+1. hasOwnProperty 메서드를 호출한 me 객체에서 hasOwnProperty 메서드를 검색
+2. me 객체에는 해당 메서드가 없으므로 프로토타입 체인에 따라, \[[Prototype]] 내부 슬롯에 바인딩되어 있는 프로토타입으로 이동하여 해당 메서드를 검색
+3. Person.prototype에도 해당 메서드가 없으므로 프로토타입 체인에 따라 검색
+4. Object.prototype에는 hasOwnProperty 메서드가 존재
+5. Object.prototype.hasOwnProperty 메서드를 호출
+   - 이때 Object.prototype.hasOwnProperty 메서드의 this에는 me 객체가 바인딩됨
+
+> Object.prototype을 프로토타입 체인의 종점 (end of prototype chain)이라 함
+
+`프로토타입 체인`
+
+- 상속과 프로퍼티 검색을 위한 매커니즘
+
+`스코프 체인`
+
+- 식별자 검색을 위한 매커니즘
+
+```js
+me.hasOwnProperty('name');
+```
+
+- 먼저 `스코프 체인`을 통해 me 식별자를 검색
+- me 식별자를 검색 후
+- `프로토타입 체인`에서 hasOwnProperty 메서드를 검색
+
+> 💡 스코프 체인과 프로토타입 체인은 서로 연관없이 별도로 동작하는 것이 아니라 서로 협력하여 식별자와 프로퍼티를 검색하는 데에 사용됨
 
 ## 19.8 오버라이딩과 프로퍼티 섀도잉
 
@@ -256,18 +341,10 @@ function Person(name) {
 
 ## 19.10 instanceof 연산자
 
-## 19.11 직접 상송
+## 19.11 직접 상속
 
 ## 19.12 정적 프로퍼티/메서드
 
 ## 19.13 프로퍼티 존재 확인
 
 ## 19.14 프로퍼티 열거
-
-```
-
-```
-
-```
-
-```
