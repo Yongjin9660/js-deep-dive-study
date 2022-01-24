@@ -98,7 +98,7 @@ console.log(typeof str); // string
   - 래퍼 객체는 가비지 컬렉션의 대상이 됨.  
     <br>
 
-![img](https://user-images.githubusercontent.com/31315644/67624621-d62e6800-f86d-11e9-895f-f1d27857397d.jpeg)
+<img src="https://user-images.githubusercontent.com/31315644/67624621-d62e6800-f86d-11e9-895f-f1d27857397d.jpeg" height="700px">
 
 <br>
 
