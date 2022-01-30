@@ -278,7 +278,113 @@ console.log(increase()); // 3
 
 <br>
 
+```jsx
+const counter = (function () {
+	// 카운트 상태 변수
+	let num = 0;
+
+	// 클로저인 메서드를 갖는 객체를 반환한다.
+	// 객체 리터럴은 스코프를 만들지 않는다.
+	// 따라서 아래 메서드들의 상위 스코프는 즉시 실행 함수의 렉시컬 환경이다.
+
+	return {
+		// num : 0,     -> 프로퍼티는 public 하므로 은닉되지 않는다.
+		increase() {
+			return ++num;
+		},
+
+		decrease() {
+			return num > 0 ? --num : 0;
+		},
+	};
+})();
+
+console.log(counter.increase()); // 1
+console.log(counter.increase()); // 2
+
+console.log(counter.decrease()); // 1
+console.log(counter.decrease()); // 0
+```
+
+- 즉시 실행 함수가 반환하는 객체 리터럴은 즉시 실행 함수의 실행 단계에서 평가되어 객체가 됨.
+- 이때 객체의 메서드도 함수 객체로 생성되는데, 객체 리터럴의 중괄호는 코드 블록이 아니므로 별도의 스코프 생성 X
+
+- increase, decrease 메서드의 상위 스코프는 increase, decrease 메서드가 평가되는 시점에 실행 중인 실행 컨텍스트인 즉시 실행 함수 실행 컨텍스트의 렉시컬 환경
+- increase, decrease 메서드가 언제 어디서 호출되든 상관없이 increase, decrease 함수는 즉시 실행 함수의 스코프의 식별자 참조 가능
+  <br>
+
 ## 24.5 캡슐화와 정보 은닉
+
+> `'캡슐화'`는 프로퍼티와 메서드를 하나로 묶는 것을 의미
+> -> 캡슐화는 객체의 특정 프로퍼티나 메서드를 감출 목적으로 사용하기도 하는데, 이를 `'정보 은닉'` 이라고 부름.
+
+<br>
+
+- 자바스크립트는 public, private, protected 와 같은 접근 제한자 X
+- 자바스크립트 객체의 모든 프로퍼티/메서드는 기본적으로 public
+
+```jsx
+const Person = (function () {
+	let _age = 0; // private
+
+	// 생성자 함수
+	function Person(name, age) {
+		this.name = name; // public
+		_age = age;
+	}
+
+	// 프로토타입 메서드
+	Person.prototype.sayHi = function () {
+		console.log(`Hi! My name is ${this.name}. I am ${_age}.`);
+	};
+
+	// 생성자 함수 반환
+	return Person;
+})();
+
+const me = new Person("Lee", 20);
+me.sayHi(); // Hi! My name is Lee. I am 20.
+console.log(me.name); // Lee
+console.log(me._age); // undefined
+```
+
+- `name 프로퍼티`
+
+  - 현재 외부로 공개되어 있으므로 외부에서 자유롭게 참조 및 변경 가능
+  - public
+    <br>
+
+- `_age 변수`
+
+  - Person 생성자 함수의 지역 변수이므로 Person 생성자 함수 외부에서 참조 및 변경 불가능
+  - private
+    <br>
+
+- 즉시 실행 함수가 반환하는 Person 생성자 함수와 Person 생성자 함수의 인스턴스가 상속받아 호출한 Person.prototype.sayHi 메서드는 즉시 실행 함수가 종료된 이후 호출됨.
+  <br>
+
+- Person 생성자 함수와 sayHi 메서드는 이미 종료되어 소멸한 즉시 실행 함수의 지역 변수 \_age 를 참조할 수 있는 클로저
+  <br>
+
+```jsx
+const me = new Person("Lee", 20);
+me.sayHi(); // Hi! My name is Lee. I am 20.
+
+const you = new Person("Kim", 30);
+you.sayHi(); // Hi! My name is Kim. I am 30.
+
+// _age 변수 값이 변경됨
+me.sayHi(); // Hi! My name is Lee. I am 30.
+```
+
+- 하지만 위와 같이 Person 생성자 함수가 여러 개의 인스턴스를 생성할 경우 \_age 변수의 상태가 유지되지 않음.
+
+- `Person.prototype.sayHi 메서드가 단 한 번 생성되는 클로저이기 때문에 발생하는 현상`
+
+  - Person.prototype.sayHi 메서드는 즉시 실행 함수가 호출될 때 생성됨
+  - 이때 Person.prototype.sayHi 메서드는 자신의 상위 스코프인 즉시 실행 함수의 실행 컨텍스트의 렉시컬 환경의 참조를 \[[Environment]] 에 저장하여 기억함
+  - 따라서 Person 생성자 함수의 모든 인스턴스가 상속을 통해 호출할 수 있는 `Person.prototype.sayHi 메서드의 상위 스코프는 어떤 인스턴스로 호출하더라도 하나의 동일한 상위 스코프를 사용함.`
+    <br>
 
 ## 24.6 자주 발생하는 실수
 
@@ -303,10 +409,38 @@ for (var j = 0; j < funcs.length; j++) {
 
 -> 이때 funcs 배열의 요소로 추가된 3개의 함수는 0, 1, 2 반환 X
 
--> for 문의 변수 선언문에서 var 키워드로 선언한 i 변수는 전역 변수이기 때문에 0, 1, 2 가 순차적으로 할당됨.
+-> for 문의 변수 선언문에서 <em> var 키워드로 선언한 i 변수는 전역 변수</em> 이기 때문에 0, 1, 2 가 순차적으로 할당됨.
 (블록 레벨 스코프가 아닌 함수 레벨 스코프를 갖기 때문)
 
--> funcs 배열의 요소로 추가한 함수를 호출하면 전역 변수 i 를 참조하여 i의 값 3 출력
+-> funcs 배열의 요소로 추가한 함수를 호출하면 <em> 전역 변수 i 를 참조하여 i의 값 3 출력</em>
+<br>
+
+```jsx
+const func = [];
+
+for (let i = 0; i < 3; i++) {
+	funcs[i] = function () {
+		return i;
+	};
+}
+
+for (let i = 0; i < funcs.length; i++) {
+	console.log(funcs[i]()); // 0 1 2
+}
+```
+
+<br>
+
+![img](https://media.vlpt.us/images/hangem422/post/9d5ec5c9-17f4-4155-8b6c-78bbaf9089d1/javascript-closure03.png)
+<br>
+
+`let 키워드로 선언한 변수를 사용하면 for 문의 코드 블록이 반복 실행될 때마다 for 문 코드 블록의 새로운 렉시컬 환경 생성`
+
+-> for 문의 코드 블록 내에서 정의한 함수의 상위 스코프는 for 문의 코드 블록이 반복 실행될 때마다 생성된 for 문 코드 블록의 새로운 렉시컬 환경
+
+-> for 문이 반복될 때마다 독립적인 렉시컬 환경을 생성하여 식별자의 값 유지
+
 <br><br>
 \*\* 이미지 출처 :
-https://velog.io/@chappi/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A5%BC-%EB%B0%B0%EC%9B%8C%EB%B3%B4%EC%9E%90-24%EC%9D%BC%EC%B0%A8-%ED%81%B4%EB%A1%9C%EC%A0%80Closuresv
+https://velog.io/@chappi/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A5%BC-%EB%B0%B0%EC%9B%8C%EB%B3%B4%EC%9E%90-24%EC%9D%BC%EC%B0%A8-%ED%81%B4%EB%A1%9C%EC%A0%80Closures
+https://velog.io/@hangem422/js-closure
