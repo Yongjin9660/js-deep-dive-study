@@ -28,7 +28,7 @@
 
 ```js
 // String 생성자 함수에 의한 String 객체 생성
-const strObj = new String("Kim"); // String {'Kim'}
+const strObj = new String('Kim'); // String {'Kim'}
 
 // String 생성자 함수를 통해 생성한 strObj 객체의 프로토타입은 String.prototype 임
 console.log(Object.getPrototypeOf(strObj) === String.prototype); // true
@@ -44,7 +44,7 @@ console.log(numObj.toFixed()); // 2
 > 💡 원시값인 문자열, 숫자, 불리언 값의 경우 이들 원시값에 대해 마치 객체처럼 마침표(또는 대괄호 표기법)으로 접근하면 자바스크립트 엔진이 일시적으로 원시값을 연관된 객체로 변환함
 
 ```js
-const str = "hello";
+const str = 'hello';
 
 // 원시 타입인 문자열이 프로퍼티와 메서드를 갖고 있는 객체처럼 동작
 console.log(str.length); // 5
@@ -56,7 +56,7 @@ console.log(str.toUpperCase()); // HELLO
 - 문자열, 숫자, 불리언 값에 대해 객체처럼 접근하면 생성되는 임시 객체
 
 ```js
-const str = "hi";
+const str = 'hi';
 
 // 원시 타입인 문자열이 래퍼 객체인 String 인스턴스로 변환
 console.log(str.length); // 2
@@ -71,11 +71,11 @@ console.log(typeof str); // string
 - 래퍼 객체는 가비지 컬렉션의 대상이 됨
 
 ```js
-const str = "hello";
+const str = 'hello';
 
 // str은 암묵적으로 생성된 래퍼 객체를 가리킴
 // str의 값 'hello'는 래퍼 객체의 [[StringData]] 내부 슬롯에 할당
-str.name = "Kim";
+str.name = 'Kim';
 
 // 식별자 str은 다시 문자열, 래퍼 객체의 [[StringData]] 내부 슬롯에 할당된 원시 값을 가짐
 // 생성된 래퍼 객체는 아무도 참조하지 않는 상태이므로 가비지 컬렉션의 대상이 됨
@@ -102,9 +102,9 @@ console.log(typeof str); // string
 - 참조 시 window(또는 global)을 생략할 수 있음
 
 ```js
-window.parseInt("F", 16); // 15
+window.parseInt('F', 16); // 15
 
-parseInt("F", 16); // 15
+parseInt('F', 16); // 15
 
 window.parseInt === parseInt; // true
 
@@ -153,10 +153,10 @@ eval(code);
 
 ```js
 // 표현식
-eval("1 + 2;"); // 3
+eval('1 + 2;'); // 3
 
 // 표현식이 아닌 문
-eval("var x = 5;"); //undefined
+eval('var x = 5;'); //undefined
 
 console.log(x); // 5
 ```
@@ -179,7 +179,7 @@ isFinite(value);
 // true
 isFinite(0);
 isFinite(2e64);
-isFinite("10");
+isFinite('10');
 isFinite(null);
 
 // false
@@ -187,7 +187,7 @@ isFinite(null);
 isFinite(Infinity); // false
 isFinite(-Infinity); // false
 isFinite(NaN); // false
-isFinite("hello"); // false
+isFinite('hello'); // false
 ```
 
 **isNaN**
@@ -207,10 +207,10 @@ isNaN(NaN); // true
 isNaN(10); // false
 
 // 문자열
-isNaN("asdf"); // true
-isNaN("10"); // false
-isNaN(""); // false: '' => 0
-isNaN(" "); // false: ' ' => 0
+isNaN('asdf'); // true
+isNaN('10'); // false
+isNaN(''); // false: '' => 0
+isNaN(' '); // false: ' ' => 0
 ```
 
 **parseFloat**
@@ -225,14 +225,14 @@ parseFloat(value);
 ```
 
 ```js
-parseFloat("3.14"); // 3.14
-parseFloat("10.00"); // 10
+parseFloat('3.14'); // 3.14
+parseFloat('10.00'); // 10
 // 공백으로 구분된 문자열은 첫번째 문자열만 반환
-parseFloat("34 45"); // 34
-parseFloat("40 years"); // 40
+parseFloat('34 45'); // 34
+parseFloat('40 years'); // 40
 
 // 앞 뒤 공백은 무시
-parseFloat(" 60"); // 60
+parseFloat(' 60'); // 60
 ```
 
 **parseInt**
@@ -248,15 +248,15 @@ parseInt(value);
 ```
 
 ```js
-parseInt("10"); // 10
-parseInt("10.123"); // 10
+parseInt('10'); // 10
+parseInt('10.123'); // 10
 
 // '10'을 2진수로 해석하고 그 결과를 10진수 정수로 반환
-parseInt("10", 2); // 2
+parseInt('10', 2); // 2
 // '10'을 8진수로 해석하고 그 결과를 10진수 정수로 반환
-parseInt("10", 8); // 8
+parseInt('10', 8); // 8
 // '10'을 16진수로 해석하고 그 결과를 10진수 정수로 반환
-parseInt("10", 16); // 16
+parseInt('10', 16); // 16
 
 const x = 15;
 // 10진수 15를 2진수로 변환하여 그 결과를 문자열로 반환
@@ -283,7 +283,7 @@ encodeURI(uri);
   - 아스키 문자로 변환하는 것
 
 ```js
-const uri = "http://example.com?name=이웅모&job=programmer&teacher";
+const uri = 'http://example.com?name=이웅모&job=programmer&teacher';
 // encodeURI 함수는 완전한 URI를 전달받아 이스케이프 처리를 위해 인코딩
 const enc = encodeURI(uri);
 console.log(enc);
@@ -300,7 +300,7 @@ decodeURI(encodedURI);
 ```
 
 ```js
-const uri = "http://example.com?name=이웅모&job=programmer&teacher";
+const uri = 'http://example.com?name=이웅모&job=programmer&teacher';
 
 // encodeURI 함수는 완전한 URI를 전달받아 이스케이프 처리를 위해 인코딩
 const enc = encodeURI(uri);
@@ -335,7 +335,7 @@ decodeURIComponent(encodedURIComponent);
 
 ```js
 // URI의 쿼리 스트링
-const uriComp = "name=이웅모&job=programmer&teacher";
+const uriComp = 'name=이웅모&job=programmer&teacher';
 
 let enc = decodeURIComponent(uriComp);
 console.log(enc);
