@@ -38,7 +38,7 @@ ES6 에서의 함수
 
 ## 26.2 메서드
 
-> 💡 ES6 사양에서 메서드는 메서드 축약 표현으로 정의된 함수를 말함
+> 💡 ES6 사양에서 메서드는 메서드 축약 표현으로 정의된 함수
 
 ```js
 const obj = {
@@ -153,7 +153,79 @@ const arrow = (a, a) => a + a;
 
 > 💡 함수를 호출할 때 어떻게 호출되었는지에 따라 this에 바인딩할 객체가 동적으로 결정
 
-> 화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 상위 스코프의 this를 참조
+```js
+class Prefixer {
+	constructor(prefix) {
+		this.prefix = prefix;
+	}
+
+	add(arr) {
+		return arr.map(function (item) {
+			return this.prefix + item;
+			// TypeError: Cannot read property 'prefix' of undefined
+		});
+	}
+}
+
+const prefixer = new Prefixer('-webkit-');
+console.log(prefixer.add(['transition', 'user-select']));
+```
+
+- 해당 add 메서드의 this는 전역 객체를 가리킨다.
+- 콜백 함수의 내부의 this 문제를 해결하기 위해 ES6 이전에는 다음과 같이 해결하였음
+
+**1. add 메서드를 호출한 prefixer 객체를 가리키는 this를 일단 회피시킨 후 콜백 함수 내부에서 사용**
+
+```js
+add(arr){
+	// this를 일단 회피
+	const that = this;
+	return arr.map(function(item) {
+		return that.prefix + ' ' + item;
+	});
+}
+```
+
+**2. Array.prototype.map의 두 번째 인수로 add 메서드를 호출한 prefixer 객체를 가리키는 this를 전달**
+
+```js
+add(arr){
+	return arr.map(function(item) {
+		return that.prefix + ' ' + item;
+	}, this); // this에 바인딩된 값이 콜백 함수 내부의 this 에 바인딩
+}
+```
+
+**3. Function.prototype.bind 메서드를 사용하여 add 메서드를 호출한 prefixer 객체를 가리키는 this를 바인딩**
+
+```js
+add(arr){
+	return arr.map(function(item) {
+		return that.prefix + ' ' + item;
+	}.bind(this)); // this에 바인딩된 값이 콜백 함수 내부의 this에 바인딩
+}
+```
+
+**ES6에서는 화살표 함수로 해결**
+
+```js
+class Prefixer {
+	constructor(prefix) {
+		this.prefix = prefix;
+	}
+
+	add(arr) {
+		return arr.map((item) => this.prefix + item);
+	}
+}
+
+const prefixer = new Prefixer('-webkit-');
+console.log(prefixer.add(['transition', 'user-select']));
+
+// ['-webkit-transition', '-webkit-user-select']
+```
+
+👉 화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 상위 스코프의 this를 참조
 
 ### super
 
