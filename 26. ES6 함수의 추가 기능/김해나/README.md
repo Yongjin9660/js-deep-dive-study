@@ -128,7 +128,7 @@ const parent = {
 };
 
 const child1 = {
-	__proto__: base,
+	__proto__: parent,
 
 	// sayHi 는 ES6 메서드 -> 내부 슬롯 [[HomeObject]] 를 가진다.
 	// sayHi 의 [[HomeObject]] 는 sayHi 가 바인딩된 객체인 child1 을 가리키고
