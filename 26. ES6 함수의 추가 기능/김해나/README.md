@@ -139,7 +139,7 @@ const child1 = {
 };
 
 const child2 = {
-	__proto__: base,
+	__proto__: ,
 
 	// sayHi 는 ES6 메서드 X -> 내부 슬롯 [[HomeObject]] 를 가지지 않는다.
 	// sayHi 는 super 키워드 사용 X
