@@ -91,6 +91,150 @@ foo(...[1, 2, 3]); // [1, 2, 3] -> 1, 2, 3
 
 ## 35.2 배열 리터럴 내부에서 사용하는 경우
 
+> 스프레드 문법을 사용하면 ES5 에서 사용하던 기존의 방식보다 더욱 간결하고 가독성 좋게 표현 가능
+
+<br>
+
+##### \*\* concat
+
+> 2개의 배열을 1개의 배열로 결합하고 싶은 경우
+
+<br>
+
+```jsx
+// ES5 : concat
+var arr = [1, 2].concat([3, 4]);
+console.log(arr); // [1, 2, 3, 4]
+
+// ES6 : 스프레드 문법
+const arr = [...[1, 2], ...[3, 4]];
+console.log(arr); // [1, 2, 3, 4]
+```
+
+<br>
+
+##### \*\* splice
+
+> 배열 중간에 다른 배열의 요소들을 추가하거나 제거하고 싶은 경우
+
+<br>
+
+```jsx
+// ES5 : splice
+var arr1 = [1, 4];
+var arr2 = [2, 3];
+
+// splice 메서드의 3번째 인수에 배열을 전달하면 배열 자체가 추가됨.
+arr1.splice(1, 0, arr2); // [1, [2, 3], 4]
+
+// 요소들을 해체해서 전달하기 위해 apply 메서드를 이용하여 splice 메서드 호출
+// arr1[1] 부터 0개의 요소를 제거하고 그 자리에 새로운 요소 (2, 3) 삽입
+Array.prototype.splice.apply(arr1, [1, 0].concat(arr2));
+console.log(arr1); // [1, 2, 3, 4]
+
+// ES6 : 스프레드 문법
+const arr1 = [1, 4];
+const arr2 = [2, 3];
+
+arr1.splice(1, 0, ...arr2);
+console.log(arr1); // [1, 2, 3, 4]
+```
+
+<br>
+
+##### \*\* 배열 복사
+
+> 원본 배열의 각 요소를 얕은 복사하여 새로운 복사본을 생성하고 싶은 경우
+
+<br>
+
+```jsx
+// ES5 : slice
+var origin = [1, 2];
+var copy = origin.slice();
+
+console.log(copy); // [1, 2]
+console.log(origin === copy); // false
+
+// ES6 : 스프레드 문법
+const origin = [1, 2];
+const copy = [...origin];
+
+console.log(copy); // [1, 2]
+console.log(origin === copy); // false
+```
+
+<br>
+
+##### \*\* 이터러블을 배열로 변환
+
+> 이터러블 또는 이터러블이 아닌 유사 배열 객체를 배열로 변환하고 싶은 경우
+
+<br>
+
+```jsx
+// ES5 : apply/call 메서드를 이용하여 slice 메서드 호출
+function sum() {
+	// 이터러블이면서 유사 배열 객체인 arguments 를 배열로 변환
+	var args = Array.prototype.slice.call(arguments);
+
+	return args.reduce(function (pre, cur) {
+		return pre + cur;
+	}, 0);
+}
+
+console.log(sum(1, 2, 3)); // 6
+
+// 이터러블이 아닌 유사 배열 객체
+const arrayLike = {
+	0: 1,
+	1: 2,
+	2: 3,
+	length: 3,
+};
+
+const arr = Array.prototype.slice.call(arrayLike); // [1, 2, 3]
+console.log(Array.isArray(arr)); // true
+```
+
+<br>
+
+```jsx
+// ES6 : 스프레드 문법
+function sum() {
+	// 이터러블이면서 유사 배열 객체인 arguments 를 배열로 변환
+	return [...arguments].reduce((pre, cure) => pre + cur, 0);
+}
+
+console.log(sum(1, 2, 3)); // 6
+
+// ES6 : Rest 파라미터
+const sum = (...args) => args.reduce((pre, cur) => pre + cur, 0);
+console.log(sum(1, 2, 3)); // 6
+
+// 이터러블이 아닌 유사 배열 객체
+const arrayLike = {
+	0: 1,
+	1: 2,
+	2: 3,
+	length: 3,
+};
+
+const arr = [...arrayLike]; // TypeError
+```
+
+- 이터러블이 아닌 유사 배열 객체는 스프레드 문법의 대상이 될 수 없음.
+  <br>
+
+\*\* 이터러블이 아닌 유사 배열 객체를 배열로 변경하려면 ES6 에서 도입된 `Array.from` 메서드 사용
+
+```jsx
+// Array.from 은 유사 배열 객체 또는 이터러블을 배열로 변환
+Array.from(arrayLike); // [1, 2, 3]
+```
+
+<br>
+
 ## 35.3 객체 리터럴 내부에서 사용하는 경우
 
 > 스프레드 프로퍼티를 사용하면 **객체 리터럴의 프로퍼티 목록에서도 스프레드 문법 사용 가능**
