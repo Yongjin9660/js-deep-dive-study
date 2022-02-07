@@ -406,4 +406,299 @@ class Person {
    - 클래스의 모든 처리가 끝나면 `완성된 인스턴스가 바인딩된 this 가 암묵적으로 반환됨.`
      <br>
 
+## 25.7 프로퍼티
+
+1. **인스턴스 프로퍼티**
+   - 인스턴스 프로퍼티는 `constructor 내부에서 정의`해야 함.
+
+<br>
+
+```jsx
+class Person {
+	constructor(name) {
+		// 인스턴스 프로퍼티
+		this.name = name;
+	}
+}
+
+const me = new Person("Lee");
+console.log(me); // Person { name : 'Lee' }
+
+// name 프로퍼티는 public
+console.log(me.name); // Lee
+```
+
+- `constructor 내부에서 this 에 추가한 프로퍼티는 언제나 클래스가 생성한 인스턴스의 프로퍼티`
+- ES6 의 클래스는 접근 제한자를 지원하지 않기 때문에 `인스턴스 프로퍼티는 언제나 public`
+  - private 한 프로퍼티를 정의할 수 있는 사양이 현재 제안 중에 있음. => <em>private 필드 정의 제안</em>
+    <br>
+
+2. **접근자 프로퍼티**
+   - 접근자 프로퍼티는 자체적으로 값 (\[[Value]] 내부 슬롯) 을 갖지 않고 `다른 데이터 프로퍼티의 값을 읽거나 저장할 때 사용하는 접근자 함수로 구성된 프로퍼티`
+
+<br>
+
+```jsx
+class Person {
+	constructor(firstName, lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
+	// fullName 은 접근자 함수로 구성된 접근자 프로퍼티
+	// getter 함수
+	get fullName() {
+		return `${this.firstName} ${this.lastName}`;
+	}
+
+	// setter 함수
+	set fullName(name) {
+		// 배열 디스트럭처링 할당
+		[this.firstName, this.lastName] = name.split(" ");
+	}
+}
+
+const me = new Person("Ungmo", "Lee");
+
+// 데이터 프로퍼티를 통한 프로퍼티 값의 참조
+console.log(`${me.firstName} ${me.lastName}`); // Ungmo Lee
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+// 접근자 프로퍼티 fullName 에 값을 저장하면 setter 함수가 호출된다.
+me.fullName = "Heegun Lee";
+console.log(me); // { firstName : 'Heegun', lastName : 'Lee' }
+
+// 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+// 접근자 프로퍼티 fullName 에 접근하면 getter 함수가 호출된다.
+console.log(me.fullName); // Heegun Lee
+
+// fullName 은 접근자 프로퍼티
+// 접근자 프로피는 get, set, enumerable, configurable 프로퍼티 어트리뷰트를 갖는다.
+console.log(Object.getOwnPropertyDescriptor(Person.prototype, "fullName"));
+// { get : f, set : f, enumerable : false, configurable : true }
+```
+
+<br>
+
+- **접근자 프로퍼티는 getter 함수와 setter 함수로 구성됨.**
+
+  - `getter 함수` : 인스턴스 프로퍼티에 접근할 때마다 프로퍼티 값을 조작하거나 별도의 행위가 필요할 때 사용
+    - getter 함수는 메서드 이름 앞에 `get 키워드 사용`
+    - 무언가를 취득할 때 사용하므로 `반환값 필수`
+      <br>
+  - `setter 함수` : 인스턴스 프로퍼티에 값을 할당할 때마다 프로퍼티 값을 조작하거나 별도의 행위가 필요할 때 사용 - 메서드 이름 앞에 `set 키워드 사용` - 무언가를 프로퍼티에 할당해야 할 때 사용하므로 `매개변수 필수` - setter 는 단 하나의 매개변수만 선언 가능
+    <br>
+
+- **클래스의 메서드는 기본적으로 프로토타입 메서드**
+  - `클래스의 접근자 프로퍼티 또한 인스턴스 프로퍼티가 아닌 프로토타입의 프로퍼티`
+    <br>
+
+#### \*\* **클래스 필드 정의 제안**
+
+- 클래스 몸체에서 클래스 필드를 정의할 수 있는 `클래스 필드 정의 제안은 아직 ECMAScript 의 정식 표준 사양 X` - 자바스크립트의 클래스 몸체에는 메서드만 선언 가능하므로 클래스 필드를 내부에 선언하면 에러 발생
+  <br>
+
+```jsx
+// 최신 브라우저 및 최신 Node.js
+class Person {
+	// 클래스 필드 정의
+	name = "Lee";
+}
+
+const me = new Person();
+console.log(me); // Person { name : 'Lee' }
+```
+
+- `최신 브라우저 및 최신 Node.js 에서는 선제적으로 미리 구현해놓았기 때문에 클래스 몸체 내부에 클래스 필드 정의 가능`
+  <br>
+
+```jsx
+// 1) 클래스 몸체에서 클래스 필드 정의 시 this 에 클래스 필드 바인딩 X
+// → this 는 클래스의 constructor 와 메서드 내에서만 유효하기 때문
+
+class Person {
+	// this 에 클래스 필드 바인딩
+	this.name = '';		// SyntaxError
+}
+```
+
+```jsx
+// 2) 클래스 필드 참조 시 반드시 this 사용
+
+class Person {
+	// 클래스 필드
+	name = "Lee";
+
+	constructor() {
+		console.log(name); // ReferenceError
+	}
+}
+
+new Person();
+```
+
+```jsx
+// 3) 클래스 필드에 초기값을 할당하지 않으면 undefined
+
+class Person {
+	name;
+}
+
+const me = new Person();
+console.log(me); // undefined
+```
+
+```jsx
+// 4) 인스턴스를 생성할 때 외부 초기값으로 클래스 필드를 초기화해야 한다면
+// constructor 에서 클래스 필드를 초기화해야 한다.
+
+class Person {
+	name;
+	constructor(name) {
+		// 클래스 필드 초기화
+		this.name = name;
+	}
+}
+
+const me = new Person("Lee");
+console.log(me); // Lee
+
+// -----------------------------------------------------------------------
+
+// 인스턴스 생성할 때 클래스 필드를 초기화해야 한다면 constructor 밖에서 클래스 필드 정의할 필요 X
+// 클래스가 생성한 인스턴스에 클래스 필드에 해당하는 프로퍼티가 없다면 자동 추가되기 때문
+
+class Person {
+	constructor(name) {
+		this.name = name;
+	}
+}
+
+const me = new Person("Lee");
+console.log(me); // Person { name : 'Lee' }
+```
+
+<br>
+
+💡 **`모든 클래스 필드는 인스턴스 프로퍼티`**
+
+- 함수는 일급 객체이므로 클래스 필드에 할당 가능
+  - But, 이때 생성된 함수도 인스턴스 메서드가 되기 때문에 권장 X
+    <br>
+
+💡 **`인스턴스 프로퍼티 정의하는 방식`**
+
+1. `인스턴스 생성 시 외부 초기값으로 클래스 필드 초기화해야 할 때`
+
+   - constructor 에서 인스턴스 프로퍼티 정의하는 기존의 방식
+     <br>
+
+2. ` 인스턴스 생성 시 외부 초기값이 필요 없을 때`
+
+   - constructor 에서 인스턴스 프로퍼티 정의하는 기존의 방식
+   - 클래스 필드 정의 제안
+     <br>
+
+#### \*\* **private 필드 정의 제안**
+
+- 자바스크립트는 private, public, protected 와 같은 접근 제한자 지원 X
+- `인스턴스 프로퍼티 및 클래스 필드 모두 기본적으로 public`
+- private 필드를 정의할 수 있는 새로운 표준 사양이 제안됨.
+  => <em> **private 필드 정의 제안**</em>
+
+<br>
+
+```jsx
+class Person {
+	// private 필드 정의
+	#name = "";
+
+	constructor(name) {
+		this.#name = name;
+	}
+}
+
+const me = new Person("Lee");
+
+// private 필드 #name 은 클래스 외부에서 참조 X
+console.log(me.#name); // SyntaxError
+```
+
+```jsx
+class Person {
+	constructor(name) {
+		// private 필드는 반드시 클래스 몸체에서 정의
+		this.#name = name; // SyntaxError
+	}
+}
+```
+
+- `private 필드 선두에 # 기호를 붙여주며 private 필드를 참조할 때도 # 을 붙여줘야 함.`
+- `private 필드는 반드시 클래스 몸체에 정의해야 함.`
+  - constructor 내부에 private 필드를 정의하게 되면 에러 발생
+    <br>
+
+| 접근 가능성                 | public | private |
+| --------------------------- | ------ | ------- |
+| 클래스 내부                 | O      | X       |
+| 자식 클래스 내부            | O      | X       |
+| 클래스 인스턴스를 통한 접근 | O      | X       |
+
+- `private 필드는 클래스 내부에서만 참조 가능`
+- 클래스 외부에서 private 필드에 직접 접근할 수 있는 방법 X
+  - `접근자 프로퍼티를 통해 간접적으로 접근하는 방법은 가능`
+    <br>
+
+\*\* **접근자 프로퍼티를 통해 private 필드에 접근하는 방법**
+
+```jsx
+class Person {
+	// private 필드 정의
+	#name = "";
+
+	constructor(name) {
+		this.#name = name;
+	}
+
+	// name 은 접근자 프로퍼티
+	get name() {
+		// private 필드를 참조하여 trim 한 다음 반환
+		return this.#name.trim();
+	}
+}
+
+const me = new Person(" Lee ");
+console.log(me.name); // Lee
+```
+
+<br>
+
+#### \*\* **static 필드 정의 제안**
+
+- `클래스에서는 static 키워드를 사용하여 정적 메서드는 정의할 수 있었지만 정적 필드는 정의할 수 없었음.`
+- But, 최신 브라우저 및 최신 Node.js 에는 static public/private 필드가 구현되어 있음.
+  <br>
+
+```jsx
+class MyMath {
+	// static public 필드 정의
+	static PI = 22 / 7;
+
+	// static private 필드 정의
+	static #num = 10;
+
+	// static 메서드
+	static increment() {
+		return ++MyMath.#num;
+	}
+}
+
+console.log(MyMath.PI); // 3.1428571...
+console.log(MyMath.increment()); // 11
+```
+
+<br>
+
+<br><br>
+
 \*\* 이미지 출처 : https://velog.io/@chappi/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%A5%BC-%EB%B0%B0%EC%9B%8C%EB%B3%B4%EC%9E%90-25%EC%9D%BC%EC%B0%A8-%ED%81%B4%EB%9E%98%EC%8A%A4class-1%ED%8E%B8-%EB%A9%94%EC%84%9C%EB%93%9C
