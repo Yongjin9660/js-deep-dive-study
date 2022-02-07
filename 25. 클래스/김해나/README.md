@@ -974,8 +974,6 @@ class Derived extends Base {
 }
 ```
 
-★★★ 이해안감,,
-
 - call 메서드를 사용하여 this 를 전달하지 않고 Base.prototype.sayHi 를 그대로 호출하는 경우
   - Base.prototype.sayHi 메서드 내부의 this 는 Base.prototype 을 가리킴.
   - Base.prototype.sayHi 메서드는 프로토타입 메서드이기 때문에 내부의 this 는 Base.prototype 이 아닌 인스턴스를 가리켜야 함. => `call 메서드 사용`
@@ -1128,7 +1126,7 @@ class Rectangle {
 		// 생성된 인스턴스의 프로토타입으로 ColorRectangle.prototype 이 설정된다.
 		console.log(Object.getPrototypeOf(this) ==== ColorRectangle.prototype);		// true
 		console.log(this instanceof ColorRectangle); // true
-	  console.log(this instanceof Rectangle);		// true
+	  	console.log(this instanceof Rectangle);		// true
 	}
 }
 ```
@@ -1233,8 +1231,6 @@ console.log(myArray.uniq()); // MyArray(3) [1, 2, 3]
 // MyArray.prototype.average 호출
 console.log(myArray.average()); // 1.75
 ```
-
-★★★ 이해안감.......ㅎㅎ....
 
 - Array 생성자 함수를 상속받아 확장한 MyArray 클래스가 생성한 인스턴스는 Array.prototype 과 MyArray.prototype 의 모든 메서드 사용 가능
   <br>
