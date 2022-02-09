@@ -22,7 +22,7 @@ console.log(one, two, three); // 1 2 3
 
 <br>
 
-\*\* **`ES5 에서의 배열 디스트럭처링 할당`**
+\*\* **`ES6 에서의 배열 디스트럭처링 할당`**
 
 ```jsx
 const arr = [1, 2, 3];
@@ -117,7 +117,7 @@ console.log(firstName, lastName); // Ungmo Lee
 
 <br>
 
-\*\* **`ES5 에서의 객체 디스트럭처링 할당`**
+\*\* **`ES6 에서의 객체 디스트럭처링 할당`**
 
 ```jsx
 const user = { firstName: "Ungmo", lastName: "Lee" };
@@ -177,6 +177,7 @@ const { length } = str;
 console.log(length); // 5
 
 const todo = { id: 1, content: HTML, completed: true };
+
 // todo 객체로부터 id 프로퍼티만 추출
 const { id } = todo;
 console.log(id); // 1
