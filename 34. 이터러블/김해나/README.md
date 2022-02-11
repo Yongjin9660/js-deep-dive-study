@@ -35,7 +35,7 @@ console.log([...array]); // [1, 2, 3]
 
 // 이터러블인 배열은 배열 디스트럭처링 할당의 대상으로 사용 가능
 const [a, ...rest] = array;
-console.log(a, rest); // [1, 2, 3]
+console.log(a, rest); // 1, [ 2, 3 ]
 ```
 
 - for... of 문으로 순회할 수 있으며, 스프레드 문법과 배열 디스트럭처링 할당의 대상으로도 사용 가능
