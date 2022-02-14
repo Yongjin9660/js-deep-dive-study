@@ -261,7 +261,7 @@ const fibonacciFunc = function (max) {
 		// next 메서드는 이터레이터 리절트 객체를 반환
 		next() {
 			[pre, cur] = [cur, pre + cur];
-			return { value: cur, don: cur >= max };
+			return { value: cur, done: cur >= max };
 		},
 	};
 };
