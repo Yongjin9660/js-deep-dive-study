@@ -30,9 +30,9 @@ console.log(mySymbol); // Symbol()
 
 ```js
 // 전역 심벌 레지스트리에 mySymbol이라는 키로 저장된 심벌 값이 없으면 새로운 심벌 값을 생성
-const s1 = Symbol.for('mySymbol');
+const s1 = Symbol.for("mySymbol");
 // 전역 심벌 레지스트리에 mySymbol이라는 키로 저장된 심벌 값이 있으면 해당 심벌 값을 반환
-const s2 = Symbol.for('mySymbol');
+const s2 = Symbol.for("mySymbol");
 
 console.log(s1 === s2); // true
 ```
@@ -41,11 +41,11 @@ console.log(s1 === s2); // true
 
 ```js
 // 전역 심벌 레지스트리에 mySymbol이라는 키로 지정된 심벌 값이 없으면 새로운 심벌 값을 생성
-const s1 = Symbol.for('mySymbol');
+const s1 = Symbol.for("mySymbol");
 Symbol.keyFor(s1); // mySymbol
 
 // Symbol 함수를 호출하여 생성한 심벌 값은 전역 심벌 레지스트리에 등록되어 관리되지 않음
-const s2 = Symbol('foo');
+const s2 = Symbol("foo");
 Symbol.keyFor(s2); // undefined
 ```
 
@@ -67,10 +67,10 @@ const Direction = {
 
 ```js
 const Direction = {
-	UP: Symbol('up'),
-	DOWN: Symbol('down'),
-	LEFT: Symbol('left'),
-	RIGHT: Symbol('right'),
+	UP: Symbol("up"),
+	DOWN: Symbol("down"),
+	LEFT: Symbol("left"),
+	RIGHT: Symbol("right"),
 };
 ```
 
@@ -81,10 +81,10 @@ const Direction = {
 ```js
 const obj = {
 	// 심벌 값으로 프로퍼티 키를 생성
-	[Symbol.for('mySymbol')]: 1,
+	[Symbol.for("mySymbol")]: 1,
 };
 
-obj[Symbol.for('mySymbol')]; // 1
+obj[Symbol.for("mySymbol")]; // 1
 ```
 
 ## 33.5 심벌과 프로퍼티 은닉
@@ -94,7 +94,7 @@ obj[Symbol.for('mySymbol')]; // 1
 ```js
 const obj = {
 	// 심벌 값으로 프로퍼티 키를 생성
-	[Symbol.for('mySymbol')]: 1,
+	[Symbol.for("mySymbol")]: 1,
 };
 
 // getOwnPropertySymbols 메서드는 인수로 전달한 객체의 심벌 프로퍼티 키를 배열로 반환
@@ -120,11 +120,11 @@ Array.prototype.sum = function () {
 ```js
 // 심벌 값으로 프로퍼티 키를 동적 생성하면 다른 프로퍼티 키와 절대 충돌하지 않아 안전
 
-Array.prototype[Symbol.for('sum')] = function () {
+Array.prototype[Symbol.for("sum")] = function () {
 	return this.reduce((acc, cur) => acc + cur, 0);
 };
 
-[1, 2][Symbol.for('sum')](); // 3
+[1, 2][Symbol.for("sum")](); // 3
 ```
 
 ## 33.7 Well-known Symbol
@@ -134,7 +134,7 @@ Array.prototype[Symbol.for('sum')] = function () {
 ![image](https://user-images.githubusercontent.com/55246584/153143526-b1d84872-9116-469b-a0c0-3dc510687c14.png)
 
 - 자바스크립트 엔진의 내부 알고리즘에 사용
-- for ... of로 순회 가능한 빌트인 이터러블 이터러블
+- for ... of로 순회 가능한 빌트인 이터러블
   - Array, String, Map, Set, TypedArray, arguments, NodeList, HTMLCollection
   - Well-known인 Symbol.iterator를 키로 갖는 메서드를 가짐
   - Symbol.iterator 메서드를 호출하면 이터레이터를 반환하도록 ECMAScript 사양에 규정되어 있음
