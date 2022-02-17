@@ -294,7 +294,7 @@ Set.prototype.isSuperset = function (subset) {
 > 💡 Map 객체는 Map 생성자 함수로 생성
 
 - Map 생성자 함수는 이터러블을 인수로 전달받아 Map 객체를 생성
-  - 인수로 전닯되는 이터러블은 키와 값의 쌍으로 이루어진 요소로 구성되어야 함
+  - 인수로 전달되는 이터러블은 키와 값의 쌍으로 이루어진 요소로 구성되어야 함
 
 ```js
 const map1 = new Map([
