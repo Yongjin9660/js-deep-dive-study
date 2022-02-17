@@ -331,7 +331,7 @@ target.match(regExp); // ["AA BB ", " Aa Bb"]
 
 ### 시작 위치로 검색
 
-👉 [...] 밖의 ^은 문자열이ㅡ 시작을 의미
+👉 [...] 밖의 ^ 은 문자열의 시작을 의미
 
 ```js
 const target = 'https://poiemaweb.com';
