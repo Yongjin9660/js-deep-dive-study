@@ -34,11 +34,11 @@
 
 ```jsx
 // bad
-GET / getTodos / 1;
-GET / todos / show / 1;
+GET /getTodos/1;
+GET /todos/show/1;
 
 // good
-GET / todos / 1;
+GET /todos/1;
 ```
 
 - `URI 는 리소스를 표현하는 데 중점을 두어야 함.`
