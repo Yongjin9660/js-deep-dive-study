@@ -158,7 +158,7 @@
 - `DOM 을 생성해나가다가 CSS 를 로드하는 link 태그나 style 태그를 만나면 DOM 생성을 일시 중단`
   <br>
 
-- link 태그의 href 어트리뷰트에 지정된 CSS 파일을 서버에 요청하여 로드한 CSS 파일이나 style 태그 내의 `CSS 를 HTML 과 동일한 파싱 과정 (바이트 → 문자 → 토큰 → 노드 → CSSOM) 을 거쳐 SSOM 을 생성`
+- link 태그의 href 어트리뷰트에 지정된 CSS 파일을 서버에 요청하여 로드한 CSS 파일이나 style 태그 내의 `CSS 를 HTML 과 동일한 파싱 과정 (바이트 → 문자 → 토큰 → 노드 → CSSOM) 을 거쳐 CSSOM 을 생성`
 
   - ul-li 태그의 상속 관계가 반영되어 아래 그림과 같은 CSSOM 이 생성됨.
     <br>
