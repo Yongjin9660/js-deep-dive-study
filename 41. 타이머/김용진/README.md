@@ -54,7 +54,7 @@ setTimeout((name) => console.log(`Hi! ${name}`), 1000, 'Kim');
 ```js
 const timerId = setTimeout(() => console.log('Hi'), 1000);
 
-// setTimeout 함수가 반환한 타이머 idfmf clearTimeout 함수의 인수로 전달하여 타이머 취소
+// setTimeout 함수가 반환한 타이머 id를 clearTimeout 함수의 인수로 전달하여 타이머 취소
 clearTimeout(timerId);
 ```
 
