@@ -410,7 +410,7 @@ xht.setRequestHeader("accept", "application/json");
 
 ```jsx
 //  XMLHttpRequest 객체 생성
-const xhr = XMLHttpRequest();
+const xhr = new XMLHttpRequest();
 
 // HTTP 요청 초기화
 // https://jsonplaceholder.typicode.com 은 Fake REST API 를 제공하는 서비스
@@ -455,7 +455,7 @@ xhr.onreadystatechange = () => {
 
 ```jsx
 //  XMLHttpRequest 객체 생성
-const xhr =  XMLHttpRequest();
+const xhr = new XMLHttpRequest();
 
 // HTTP 요청 초기화
 // https://jsonplaceholder.typicode.com 은 Fake REST API 를 제공하는 서비스
