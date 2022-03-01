@@ -145,7 +145,3 @@ bar();
 ### 참고
 
 - https://poiemaweb.com/js-async
-
-```
-
-```
