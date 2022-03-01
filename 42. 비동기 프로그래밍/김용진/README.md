@@ -14,7 +14,7 @@ function sleep(func, delay) {
 	const dayUntil = Date.now() + delay;
 
 	// 현재 시간에 delay를 더한 delayUntil이 현재 시간보다 작으면 계속 반복
-	while (Date.now() + delayUntil) {}
+	while (Date.now() < delayUntil) {}
 	// 일정 시간이 경과한 이후에 콜백함수를 호출
 	func();
 }
@@ -22,7 +22,7 @@ function sleep(func, delay) {
 function foo() {
 	console.log('foo');
 }
-function foo() {
+function bar() {
 	console.log('bar');
 }
 
