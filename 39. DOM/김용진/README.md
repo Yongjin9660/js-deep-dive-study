@@ -58,7 +58,7 @@
 	<body>
 		<input type="text" />
 		<script>
-			const $input = document.querySelector('input');
+			const $input = document.querySelector("input");
 
 			// input 요소 노드 객체의 프로토타입 체인
 			console.log(
@@ -99,7 +99,7 @@
 - 요소가 존재하지 않는다면 null을 반환
 
 ```js
-const $elem = document.getElementById('banana');
+const $elem = document.getElementById("banana");
 ```
 
 - HTML 요소에 id 어트리뷰트를 부여하면 id 값과 동일한 이름의 전역 변수가 암묵적으로 선언되고 해당 노드 객체가 할당되는 부수 효과가 있음
@@ -111,7 +111,7 @@ const $elem = document.getElementById('banana');
 		<div id="foo"></div>
 		<script>
 			// id 값과 동일한 이름의 전역 변수가 암묵적으로 선언되고 해당 노드 객체가 할당
-			console.log(foo === document.getElementById('foo')); // true
+			console.log(foo === document.getElementById("foo")); // true
 		</script>
 	</body>
 </html>
@@ -136,11 +136,11 @@ const $elem = document.getElementById('banana');
 			// 태그 이름이 li인 요소 노드를 모두 탐색하여 반환
 			// 탐색된 요소 노드들은 HTMLCollection 객체에 담겨 반환
 			// HTMLCollection 객체는 유사 배열 객체이면서 이터러블
-			const $elems = document.getElementsByTagName('li');
+			const $elems = document.getElementsByTagName("li");
 
 			// HTMLCollection 객체를 배열로 변환하여 순회하며 color 프로퍼티 값을 변경
 			[...$elems].forEach((elem) => {
-				elem.style.color = 'red';
+				elem.style.color = "red";
 			});
 		</script>
 	</body>
@@ -232,13 +232,13 @@ p::before { ... }
 			<li id="orange">Orange</li>
 		</ul>
 		<script>
-			const $apple = document.querySelector('.apple');
+			const $apple = document.querySelector(".apple");
 
 			// $apple 노드는 '#fruits > li.apple'로 취득할 수 있음
-			console.log($apple.matches('#fruits > li.apple')); // true
+			console.log($apple.matches("#fruits > li.apple")); // true
 
 			// $apple 노드는 '#fruits > li.banana'로 취득할 수 없음
-			console.log($apple.matches('#fruits > li.banana'));
+			console.log($apple.matches("#fruits > li.banana"));
 		</script>
 	</body>
 </html>
@@ -279,13 +279,13 @@ HTMLCollection과 NodeList는 모두 유사 배열 객체이면서 이터러블
 		</ul>
 		<script>
 			// class 값이 'red'인 요소 노드를 모두 탐색하여 HTMLCollection 객체에 담아 반환
-			const $elems = document.getElementsByClassName('red');
+			const $elems = document.getElementsByClassName("red");
 			// 이 시점에 HTMLCollection 객체에는 3개의 요소 노드가 담겨 있음
 			console.log($elem); // HTMLCollection(3) [li.red, li.red, li.red]
 
 			// HTMLCollection 객체의 모든 요소의 class 값을 'blue'로 변경
 			for (let i = 0; i < $elem.length; i++) {
-				$elem[i].className = 'blue';
+				$elem[i].className = "blue";
 			}
 
 			// HTMLCollection 객체의 요소가 3개에서 1개로 변경
@@ -304,17 +304,17 @@ HTMLCollection과 NodeList는 모두 유사 배열 객체이면서 이터러블
 ```js
 // for 문을 역방향 순회
 for (let i = $elems.length - 1; i >= 0; i--) {
-	$elems[i].className = 'blue';
+	$elems[i].className = "blue";
 }
 
 // while 문으로 HTMLCollection에 요소가 남아 있지 않을 때까지 무한 반복
 let i = 0;
 while ($elems.length > i) {
-	$elems[i].className = 'blue';
+	$elems[i].className = "blue";
 }
 
 // 유사 배열 객체이면서 이터러블인 HTMLCollection을 배열로 변환하여 순회
-[...$elems].forEach((elem) => (elem.className = 'blue'));
+[...$elems].forEach((elem) => (elem.className = "blue"));
 ```
 
 **NodeList**
@@ -345,7 +345,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 			<li>Orange</li>
 		</ul>
 		<script>
-			const $fruits = document.getElementById('fruits');
+			const $fruits = document.getElementById("fruits");
 
 			// childNodes 프로퍼티는 NodeList 객체(live)를 반환
 			const { childNodes } = $fruits;
@@ -398,7 +398,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 		<ul id="fruits"></ul>
 	</body>
 	<script>
-		const $fruits = document.getElementById('fruits');
+		const $fruits = document.getElementById("fruits");
 
 		console.log($fruits.hasChildNodes()); // true
 	</script>
@@ -418,7 +418,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 		<div id="foo">Hello</div>
 		<script>
 			// 요소 노드의 텍스트 노드는 firstChild 프로퍼티로 접근 가능
-			console.log(document.getElementById('foo').firstChild); // #text
+			console.log(document.getElementById("foo").firstChild); // #text
 		</script>
 	</body>
 </html>
@@ -440,7 +440,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 	</body>
 	<script>
 		// 노드 탐색의 기점이 되는 .banana 요소 노드를 취득
-		const $banana = document.querySelector('.banana');
+		const $banana = document.querySelector(".banana");
 
 		// .banana 요소 노드의 부모 노드를 탐색
 		console.log($banana.parentNode); // ul#fruits
@@ -469,7 +469,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 	</body>
 	<script>
 		// 노드 탐색의 기점이 되는 .banana 요소 노드를 취득
-		const $fruits = document.getElementById('fruits');
+		const $fruits = document.getElementById("fruits");
 
 		// 첫 번째 자식 노드 탐색
 		// 요소 노드 뿐 아니라 텍스트 노드를 반환할 수도 있음
@@ -536,7 +536,7 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 		console.log(document.nodeValue); // null
 
 		// 요소 노드의 nodeValue 프로퍼티를 참조
-		const $foo = document.getElementById('foo');
+		const $foo = document.getElementById("foo");
 		console.log($foo.nodeValue); // null
 
 		// 텍스트 노드의 nodeValue 프로퍼티 참조
@@ -555,9 +555,9 @@ childNodes 프로퍼티가 반환하는 NodeList 객체는 HTMLCollection 객체
 2. 탐색한 텍스트 노드의 nodeValue 프로퍼티를 사용하여 텍스트 노드의 값을 변경
 
 ```js
-const $textNode = document.getElementById('foo').firstChild;
+const $textNode = document.getElementById("foo").firstChild;
 
-$textNode.nodeValue = 'World';
+$textNode.nodeValue = "World";
 
 console.log($textNode.nodeValue); // World
 ```
@@ -576,7 +576,7 @@ console.log($textNode.nodeValue); // World
 	</body>
 	<script>
 		// #foo 요소 노드의 텍스트를 모두 취득
-		console.log(document.getElementById('foo').textContent); // Hello world!
+		console.log(document.getElementById("foo").textContent); // Hello world!
 	</script>
 </html>
 ```
@@ -598,7 +598,7 @@ innerText 프로퍼티는 다음과 같은 이유로 사용하지 않는 것이 
 
 > 💡 W3C과 WHATWG이라는 두 단체에서 공통된 표준을 만듦
 
-DOM은 현재 다음과 가티 4개의 버전이 있음
+DOM은 현재 다음과 같이 4개의 버전이 있음
 
 | 레벨        | 표준 문서 URL                          |
 | ----------- | -------------------------------------- |

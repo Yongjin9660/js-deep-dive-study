@@ -1010,7 +1010,10 @@ console.log($textNode.nodeValue); // World
 
 > 요소 노드의 textContent 프로퍼티를 참조하면 요소 노드의 콘텐츠 영역(시작 태그와 종료 태그 사이) 내의 텍스트를 모두 반환
 
+<br>
+
 - Node.prototype.textContent 프로퍼티는 setter와 getter 모두 존재하는 접근자 프로퍼티로서 요소 노드의 텍스트와 모든 자손 노드의 텍스트를 취득하거나 변경
+  <Br>
 
 ```html
 <!DOCTYPE html>
@@ -1025,13 +1028,36 @@ console.log($textNode.nodeValue); // World
 </html>
 ```
 
-textContent 프로퍼티와 유사한 동작을 하는 `innerText` 프로퍼티가 있음
-innerText 프로퍼티는 다음과 같은 이유로 사용하지 않는 것이 좋음
+- textContent 프로퍼티와 유사한 동작을 하는 `innerText` 프로퍼티가 있음.
+- innerText 프로퍼티는 다음과 같은 이유로 사용하지 않는 것이 좋음.
 
-- innerText 프로퍼티 CSS에 순종적
-  - CSS에 의해 비표시(visibility: hidden;)로 지정된 요소 노드의 텍스트를 반환하지 않음
-- innerText 프로퍼티는 CSS를 고려해야 하므로 textContent 프로퍼티보다 느림
+  - innerText 프로퍼티 CSS에 순종적
+    - CSS에 의해 비표시(visibility: hidden;)로 지정된 요소 노드의 텍스트를 반환하지 않음.
+  - innerText 프로퍼티는 CSS를 고려해야 하므로 textContent 프로퍼티보다 느림.
+    <br>
+
+## 39.6 DOM 조작
+
+## 39.7 어트리뷰트
+
+## 39.8 스타일
+
+## 39.9 DOM 표준
+
+- W3C과 WHATWG이라는 두 단체에서 공통된 표준을 만듦.
+
+- DOM은 현재 다음과 같이 4개의 버전 존재
+
+| 레벨        | 표준 문서 URL                          |
+| ----------- | -------------------------------------- |
+| DOM Level 1 | https://www.w3.org/TR/REC-DOM-Level-1  |
+| DOM Level 2 | https://www.w3.org/TR/DOM-Level-2-Core |
+| DOM Level 3 | https://www.w3.org/TR/DOM-Level-3-Core |
+| DOM Level 4 | https://dom.spec.whatwg.org            |
 
 <br><br>
 \*\* 이미지 출처 : https://velog.io/@hangem422/js-web-node
 https://velog.io/@lechuck/DOM-API
+https://yung-developer.tistory.com/74
+https://gmlwjd9405.github.io/2018/08/12/data-structure-tree.html
+https://velog.io/@hangem422/js-web-node
