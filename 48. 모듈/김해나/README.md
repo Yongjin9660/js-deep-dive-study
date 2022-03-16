@@ -213,9 +213,9 @@ console.log(new Person("Lee")); // Person { name: 'Lee' }
 // lib.mjs 모듈이 export 한 모든 식별자를 lib 객체의 프로퍼티로 모아 import
 import * as lib from "./lib.mjs";
 
-console.log(pi); // 3.14592653589793
-console.log(square(10)); // 100
-console.log(new Person("Lee")); // Person { name: 'Lee' }
+console.log(lib.pi); // 3.14592653589793
+console.log(lib.square(10)); // 100
+console.log(new lib.Person("Lee")); // Person { name: 'Lee' }
 ```
 
 - **모듈이 export 한 식별자 이름을 일일이 지정하지 않고 하나의 이름으로 한 번에 import 하는 것도 가능**
